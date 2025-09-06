@@ -48,9 +48,10 @@ RUN apt update && apt install -y git
 RUN pip install -e .
 
 RUN groupadd -g 14237 -f bugsink && \
-    id -u bugsink &>/dev/null || useradd -u 14237 -g bugsink bugsink && \
+    (id -u bugsink || useradd -u 14237 -g bugsink bugsink) && \
     mkdir -p /data && \
-    chown -R bugsink:bugsink /data
+    chown -R 14237:14237 /data
+
 
 USER bugsink
 
