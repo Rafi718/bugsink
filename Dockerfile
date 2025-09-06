@@ -47,10 +47,10 @@ COPY bugsink/conf_templates/docker.py.template bugsink_conf.py
 RUN apt update && apt install -y git
 RUN pip install -e .
 
-RUN groupadd --gid 14237 bugsink \
- && useradd --uid 14237 --gid bugsink \
- && mkdir -p /data \
- && chown -R bugsink:bugsink /data
+RUN groupadd -g 14237 -f bugsink && \
+    id -u bugsink &>/dev/null || useradd -u 14237 -g bugsink bugsink && \
+    mkdir -p /data && \
+    chown -R bugsink:bugsink /data
 
 USER bugsink
 
